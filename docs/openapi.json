@@ -1,0 +1,342 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "CabaPro Árbitros API (Node Gateway)",
+        "version": "1.0.0",
+        "description": "API Node/Express que consume la API SpringBoot y expone funcionalidades del rol Árbitro"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "paths": {
+        "/health": {
+            "get": {
+                "summary": "Healthcheck",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/whoami": {
+            "get": {
+                "summary": "Identidad del contenedor/host",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "summary": "Registro de árbitro (proxy a Spring)",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth/login": {
+            "post": {
+                "summary": "Login de árbitro (proxy a Spring)",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/me": {
+            "get": {
+                "summary": "Perfil del árbitro",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualizar perfil",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ArbitroUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/asignaciones": {
+            "get": {
+                "summary": "Listar asignaciones (estado opcional)",
+                "parameters": [
+                    {
+                        "name": "estado",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/asignaciones/{id}/aceptar": {
+            "post": {
+                "summary": "Aceptar asignación",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/asignaciones/{id}/rechazar": {
+            "post": {
+                "summary": "Rechazar asignación",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/liquidaciones": {
+            "get": {
+                "summary": "Listar liquidaciones",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/liquidaciones/{id}": {
+            "get": {
+                "summary": "Detalle de liquidación",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/liquidaciones/{id}/pdf": {
+            "get": {
+                "summary": "Descargar PDF de liquidación",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/partidos": {
+            "get": {
+                "summary": "Listar partidos",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/partidos/{id}": {
+            "get": {
+                "summary": "Detalle de partido",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/arbitros/dashboard": {
+            "get": {
+                "summary": "Dashboard del árbitro (proxy por defecto)",
+                "parameters": [
+                    {
+                        "name": "mode",
+                        "in": "query",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "proxy",
+                                "redirect"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegisterRequest": {
+                "type": "object",
+                "properties": {
+                    "correo": {
+                        "type": "string"
+                    },
+                    "contrasena": {
+                        "type": "string"
+                    },
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "especialidad": {
+                        "type": "string"
+                    },
+                    "escalafon": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "correo",
+                    "contrasena",
+                    "nombre"
+                ]
+            },
+            "LoginRequest": {
+                "type": "object",
+                "properties": {
+                    "correo": {
+                        "type": "string"
+                    },
+                    "contrasena": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "correo",
+                    "contrasena"
+                ]
+            },
+            "ArbitroUpdateRequest": {
+                "type": "object",
+                "properties": {
+                    "nombre": {
+                        "type": "string"
+                    },
+                    "especialidad": {
+                        "type": "string"
+                    },
+                    "escalafon": {
+                        "type": "string"
+                    },
+                    "fotoPerfilUrl": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
