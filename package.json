@@ -32,5 +32,17 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mvanegas1505/Nodejs-API.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Mvanegas1505/Nodejs-API/issues"
+  },
+  "homepage": "https://github.com/Mvanegas1505/Nodejs-API#readme"
 }

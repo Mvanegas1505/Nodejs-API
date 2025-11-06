@@ -28,11 +28,28 @@ function createApp() {
     })
 
     // Swagger UI (documentación de esta API Node)
+    // Intentamos cargar primero docs/openapi.json; si no existe, usamos docs/openapi-fixed.json (mejorada)
     try {
-        const spec = require(path.join(__dirname, 'docs', 'openapi.json'))
-        app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec))
+        // Try loading multiple possible OpenAPI specs: prefer openapi.json, then openapi-clean.json, then openapi-fixed.json
+        let spec = null
+        const candidates = [
+            path.join(__dirname, 'docs', 'openapi.json'),
+            path.join(__dirname, 'docs', 'openapi-clean.json'),
+            path.join(__dirname, 'docs', 'openapi-fixed.json')
+        ]
+        for (const p of candidates) {
+            try {
+                // use require so Node will parse JSON
+                spec = require(p)
+                if (spec) break
+            } catch (err) {
+                // ignore and try next
+            }
+        }
+        if (spec) app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec))
     } catch (e) {
-        // opcional: no bloquear si aún no existe el spec
+        // don't block startup if swagger fails
+        console.warn('Swagger UI could not be initialized:', e && e.message)
     }
 
     // Importar rutas
